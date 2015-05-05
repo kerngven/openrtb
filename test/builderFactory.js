@@ -9,6 +9,9 @@ var BuilderFactory = require('../lib/builderFactory'),
     BannerBuilder = require('../lib/openrtb2_3/banner').builder,    
     PublisherBuilder = require('../lib/openrtb2_3/publisher').builder,
     UserBuilder = require('../lib/openrtb2_3/user').builder,
+    PmpBuilder = require('../lib/openrtb2_3/pmp').builder,
+    SiteBuilder = require('../lib/openrtb2_3/site').builder,
+    DealBuilder = require('../lib/openrtb2_3/deal').builder,
     BidBuilder = require('../lib/openrtb2_3/bid').builder;
 
 describe("The BuilderFactory should", function() {
@@ -92,6 +95,27 @@ describe("The BuilderFactory should", function() {
       builderType: 'banner'
     });
     builder.should.be.an.instanceOf(BannerBuilder);
+  });
+
+  it("construct and return a pmp builder", function() {
+    var builder = builderFactory.getBuilder({
+      builderType: 'pmp'
+    });
+    builder.should.be.an.instanceOf(PmpBuilder);
+  });
+
+  it("construct and return a site builder", function() {
+    var builder = builderFactory.getBuilder({
+      builderType: 'site'
+    });
+    builder.should.be.an.instanceOf(SiteBuilder);
+  });
+
+  it("construct and return a deal builder", function() {
+    var builder = builderFactory.getBuilder({
+      builderType: 'deal'
+    });
+    builder.should.be.an.instanceOf(DealBuilder);
   });
 
 });

@@ -14,6 +14,11 @@ var moment = require('moment'),
     Seatbid = require('../lib/openrtb2_3/seatbid').object,
     User = require('../lib/openrtb2_3/user').object,
     App = require('../lib/openrtb2_3/app').object,
+    Site = require('../lib/openrtb2_3/site').object,
+    Pmp = require('../lib/openrtb2_3/pmp').object,
+    Deal = require('../lib/openrtb2_3/deal').object,
+    Content = require('../lib/openrtb2_3/content').object,
+    Producer = require('../lib/openrtb2_3/producer').object,
     BidRequestBuilder = require('../lib/openrtb2_3/bidRequest').builder,
     BidBuilder = require('../lib/openrtb2_3/bid').builder,
     BidResponseBuilder = require('../lib/openrtb2_3/bidResponse').builder;
@@ -40,43 +45,54 @@ describe("OpenRTB 2.3 unit test suite", function() {
       .at(2)
       .imp([
           {
-              "id":"1",
-              "native":{
-                "api": [ 3 ], 
-                "battr": [ 13, 14 ],
-                "request": {
-                  "ver": 1,
-                  "layout": 6,
-                  "assets": [
-                    {
-                      "id": 0,
-                      "req": 1,
-                      "title": {
-                        "len": 25
-                      }
-                    }, 
-                    { 
-                      "id": 1, 
-                      "req": 1, 
-                      "img": { 
-                        "type": 3, 
-                        "wmin": 100, 
-                        "hmin": 100
-                      } 
-                    },
-                    {
-                      "id": 3, 
-                      "req": 0, 
-                      "data": { 
-                        "type": 2,
-                        "len": 90
-                      }                       
+            "id":"1",
+            "native":{
+              "api": [ 3 ], 
+              "battr": [ 13, 14 ],
+              "request": {
+                "ver": 1,
+                "layout": 6,
+                "assets": [
+                  {
+                    "id": 0,
+                    "req": 1,
+                    "title": {
+                      "len": 25
                     }
-                  ]
-                }
-              },
-              "tagid": "eb09ff2a287598302fd631493949169b0d17f815",
-              "bidfloor": 1.3
+                  }, 
+                  { 
+                    "id": 1, 
+                    "req": 1, 
+                    "img": { 
+                      "type": 3, 
+                      "wmin": 100, 
+                      "hmin": 100
+                    } 
+                  },
+                  {
+                    "id": 3, 
+                    "req": 0, 
+                    "data": { 
+                      "type": 2,
+                      "len": 90
+                    }                       
+                  }
+                ]
+              }
+            },
+            "tagid": "eb09ff2a287598302fd631493949169b0d17f815",
+            "bidfloor": 1.3,
+            "pmp": [{
+              "private_auction": 0,
+              "deals": [{
+                "id": "deal_1",
+                "bidfloor": 1.3,
+                "bidfloorcur": "CNY",
+                "at": 2,
+                "wseat": [mockResponse.seatbid],
+                "wadomain": ["example.com"]
+              }]
+            }]
           }
       ])
       .app({
@@ -90,26 +106,70 @@ describe("OpenRTB 2.3 unit test suite", function() {
           }
       })
       .device({
-        "dnt":0,
-        "ua":"Mozilla/5.0 (Linux; U; Android 4.0.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30",
-        "ip":"76.174.49.222",
-        "connectiontype":2,
-        "devicetype":1,
-        "didsha1": "bbc9ff2a287598302fd631693949169b0d17f215",
-        "carrier": "o2",
-        "make": "samsung GT-I9300",
-        "model": "Android",
-        "language": "en",
-        "os": "Android",
-        "osv": "5.1.1",
-        "geo": {
-            "country": "UK"
-        }
+          "dnt":0,
+          "ua":"Mozilla/5.0 (Linux; U; Android 4.0.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30",
+          "ip":"76.174.49.222",
+          "connectiontype":2,
+          "devicetype":1,
+          "didsha1": "bbc9ff2a287598302fd631693949169b0d17f215",
+          "carrier": "o2",
+          "make": "samsung GT-I9300",
+          "model": "Android",
+          "language": "en",
+          "os": "Android",
+          "osv": "5.1.1",
+          "geo": {
+              "country": "UK"
+          }
       })
       .user({
           "id":"55816b39711f9b5acf3b90e313ed29e51665623f",
           "yob": 1987,
           "gender": "M",
+      })
+      .site({
+          "id": "10",
+          "name": "Test Site",
+          "domain": "example.com",
+          "cat": ['IAB3-1'],
+          "sectioncat": ['IAB3-1'],
+          "pagecat": ['IAB3-1'],
+          "page": "http://www.example.com",
+          "ref": "http://www.google.com",
+          "search": "example+test+openRTB",
+          "mobile": 0,
+          "privacypolicy": 1,
+          "keywords": "nodejs+openRTB",
+          "publisher": {  
+                "id": "6332",
+                "name": 'publisher 1'
+          },
+          "content": {
+            "id": "100",
+            "episode": "1",
+            "title": "example video",
+            "series": "nodejs+openRTB",
+            "season": "one",
+            "producer": {
+              "id": "100",
+              "name": "Test Producer",
+              "cat": ['IAB3-1'],
+              "domain": "example.com"
+            },
+            "url": "http://www.example.com",
+            "cat": ["IAB3-1"],
+            "videoquality": 1,
+            "context": 1,
+            "contentrating": "18X",
+            "userrating": "18",
+            "qagmediarating": 1,
+            "keywords": "nodejs+openRTB+example",
+            "livestream": 0,
+            "sourcerelationship": 1,
+            "len": 1024,
+            "language": "ISO-639-1-alpha-2",
+            "embeddable": 0
+          }
       })
       .ext({
         'extra': '1234'
@@ -152,6 +212,56 @@ describe("OpenRTB 2.3 unit test suite", function() {
 
         //Check app.publisher object
         bidRequest.app.publisher.should.have.properties({ id: '6332', name: 'publisher 1' });
+
+
+        //Check site object
+        bidRequest.site.should.have.properties({
+          id: "10",
+          name: "Test Site",
+          domain: "example.com",
+          cat: ['IAB3-1'],
+          sectioncat: ['IAB3-1'],
+          pagecat: ['IAB3-1'],
+          page: "http://www.example.com",
+          ref: "http://www.google.com",
+          search: "example+test+openRTB",
+          mobile: 0,
+          privacypolicy: 1,
+          keywords: "nodejs+openRTB"
+        });
+
+        //Check site.publisher object
+        bidRequest.site.publisher.should.have.properties({ id: '6332', name: 'publisher 1' });
+
+        //Check site.content object
+        bidRequest.site.content.should.have.properties({
+          id: "100",
+          episode: "1",
+          title: "example video",
+          series: "nodejs+openRTB",
+          season: "one",
+          url: "http://www.example.com",
+          cat: ["IAB3-1"],
+          videoquality: 1,
+          context: 1,
+          contentrating: "18X",
+          userrating: "18",
+          qagmediarating: 1,
+          keywords: "nodejs+openRTB+example",
+          livestream: 0,
+          sourcerelationship: 1,
+          len: 1024,
+          language: "ISO-639-1-alpha-2",
+          embeddable: 0
+        });
+
+        //Check site.content.producer object
+        bidRequest.site.content.producer.should.have.properties({
+          id: "100",
+          name: "Test Producer",
+          cat: ['IAB3-1'],
+          domain: "example.com"
+        });
 
         //Check device object
         bidRequest.device.should.have.properties({
@@ -302,6 +412,13 @@ describe("OpenRTB 2.3 unit test suite", function() {
     });
   });
 
+  describe("The Site object should", function() {
+    it("be an instance of RtbObject", function() {
+      var site = new Site();
+      site.should.be.an.instanceof(RtbObject);      
+    });
+  });
+
   describe("The BidRequest object should", function() {
     it("be an instance of RtbObject", function() {
       var bidRequest = new BidRequest();
@@ -327,6 +444,20 @@ describe("OpenRTB 2.3 unit test suite", function() {
     it("be an instance of RtbObject", function() {
       var imp = new Imp();
       imp.should.be.an.instanceof(RtbObject);      
+    });
+  });
+
+  describe("The Pmp object should", function() {
+    it("be an instance of RtbObject", function() {
+      var pmp = new Pmp();
+      pmp.should.be.an.instanceof(RtbObject);      
+    });
+  });
+
+  describe("The Deal object should", function() {
+    it("be an instance of RtbObject", function() {
+      var deal = new Deal();
+      deal.should.be.an.instanceof(RtbObject);      
     });
   });
 
@@ -362,6 +493,20 @@ describe("OpenRTB 2.3 unit test suite", function() {
     it("be an instance of RtbObject", function() {
       var user = new User();
       user.should.be.an.instanceof(RtbObject);      
+    });
+  });
+
+  describe("The Content object should", function() {
+    it("be an instance of RtbObject", function() {
+      var content = new Content();
+      content.should.be.an.instanceof(RtbObject);      
+    });
+  });
+
+  describe("The producer object should", function() {
+    it("be an instance of RtbObject", function() {
+      var producer = new Producer();
+      producer.should.be.an.instanceof(RtbObject);      
     });
   });
 
