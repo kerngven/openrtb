@@ -45,7 +45,7 @@ describe("OpenRTB 2.3 unit test suite", function() {
       .at(2)
       .imp([
           {
-            "id":"1",
+            "id":"e317ae49-8cd1-47b0-b022-02a8830182ce",
             "native":{
               "api": [ 3 ], 
               "battr": [ 13, 14 ],
@@ -82,17 +82,17 @@ describe("OpenRTB 2.3 unit test suite", function() {
             },
             "tagid": "eb09ff2a287598302fd631493949169b0d17f815",
             "bidfloor": 1.3,
-            "pmp": [{
+            "pmp": {
               "private_auction": 0,
               "deals": [{
                 "id": "deal_1",
                 "bidfloor": 1.3,
                 "bidfloorcur": "CNY",
                 "at": 2,
-                "wseat": [mockResponse.seatbid],
+                "wseat": ["819582c3-96b2-401a-b60d-7ac3c117a513"],
                 "wadomain": ["example.com"]
               }]
-            }]
+            }           
           }
       ])
       .app({
@@ -183,7 +183,7 @@ describe("OpenRTB 2.3 unit test suite", function() {
         //Check imp object
         bidRequest.imp.length.should.equal(1);
         bidRequest.imp[0].should.have.properties({
-          id: '1',
+          id: 'e317ae49-8cd1-47b0-b022-02a8830182ce',
           bidfloor: 1.3,
           tagid: 'eb09ff2a287598302fd631493949169b0d17f815'
         });
@@ -201,6 +201,22 @@ describe("OpenRTB 2.3 unit test suite", function() {
           layout: 6,
           ver: 1
         });
+
+        //Check pmp object
+        bidRequest.imp[0].pmp.should.have.properties({
+          "private_auction": 0
+        });
+
+        //Check deal object
+        bidRequest.imp[0].pmp.deals[0].should.have.properties({
+          "id": "deal_1",
+          "bidfloor": 1.3,
+          "bidfloorcur": "CNY",
+          "at": 2,
+          "wseat": ["819582c3-96b2-401a-b60d-7ac3c117a513"],
+          "wadomain": ["example.com"]
+        });
+
 
         //Check app object
         bidRequest.app.should.have.properties({
