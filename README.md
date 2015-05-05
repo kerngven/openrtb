@@ -30,10 +30,15 @@ The library exposes object builders which are used to construct new objects.
 	- Imp
 	    - Native
 	    - Banner
+	    - Pmp
+	    	- Deal
 	- App
 	    - Publisher
 	- Device
 	- User
+	- Site
+		- Content
+			- Producer
      
 - BidResponse
     - SeatBid
@@ -65,7 +70,18 @@ Not supported but most objects for v2.3 should work for this one too.
             }
           },
 	      "tagid": "eb09ff2a287598302fd631493949169b0d17f815",
-	      "bidfloor": 1.3
+	      "bidfloor": 1.3,
+	      "pmp": [{
+          "private_auction": 0,
+          "deals": [{
+            "id": "deal_1",
+            "bidfloor": 1.3,
+            "bidfloorcur": "CNY",
+            "at": 2,
+            "wseat": [mockResponse.seatbid],
+            "wadomain": ["example.com"]
+          }]
+        }]
 	  }
 	])
 	.app({
@@ -98,6 +114,50 @@ Not supported but most objects for v2.3 should work for this one too.
 		"id":"55816b39711f9b5acf3b90e313ed29e51665623f",
 		"yob": 1987,
 		"gender": "M"
+	})
+	.site({
+  	"id": "10",
+  	"name": "Test Site",
+  	"domain": "example.com",
+  	"cat": ['IAB3-1'],
+  	"sectioncat": ['IAB3-1'],
+  	"pagecat": ['IAB3-1'],
+  	"page": "http://www.example.com",
+  	"ref": "http://www.google.com",
+  	"search": "example+test+openRTB",
+  	"mobile": 0,
+  	"privacypolicy": 1,
+  	"keywords": "nodejs+openRTB",
+  	"publisher": {  
+      "id": "6332",
+      "name": 'publisher 1'
+  	},
+  	"content": {
+    	"id": "100",
+      "episode": "1",
+      "title": "example video",
+      "series": "nodejs+openRTB",
+      "season": "one",
+    	"producer": {
+    		"id": "100",
+      	"name": "Test Producer",
+      	"cat": ['IAB3-1'],
+      	"domain": "example.com"
+    	},
+      "url": "http://www.example.com",
+      "cat": ["IAB3-1"],
+      "videoquality": 1,
+      "context": 1,
+      "contentrating": "18X",
+      "userrating": "18",
+      "qagmediarating": 1,
+      "keywords": "nodejs+openRTB+example",
+      "livestream": 0,
+      "sourcerelationship": 1,
+      "len": 1024,
+      "language": "ISO-639-1-alpha-2",
+      "embeddable": 0
+  	}
 	})
 	.ext({
 		'extra': '1234'
