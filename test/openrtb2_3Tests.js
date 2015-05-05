@@ -82,17 +82,17 @@ describe("OpenRTB 2.3 unit test suite", function() {
             },
             "tagid": "eb09ff2a287598302fd631493949169b0d17f815",
             "bidfloor": 1.3,
-            "pmp": {
-              "private_auction": 0,
-              "deals": [{
-                "id": "deal_1",
-                "bidfloor": 1.3,
-                "bidfloorcur": "CNY",
-                "at": 2,
-                "wseat": ["819582c3-96b2-401a-b60d-7ac3c117a513"],
-                "wadomain": ["example.com"]
-              }]
-            }           
+            // "pmp": {
+            //   "private_auction": 0,
+            //   "deals": [{
+            //     "id": "deal_1",
+            //     "bidfloor": 1.3,
+            //     "bidfloorcur": "CNY",
+            //     "at": 2,
+            //     "wseat": ["819582c3-96b2-401a-b60d-7ac3c117a513"],
+            //     "wadomain": ["example.com"]
+            //   }]
+            // }           
           }
       ])
       .app({
@@ -144,32 +144,32 @@ describe("OpenRTB 2.3 unit test suite", function() {
                 "id": "6332",
                 "name": 'publisher 1'
           },
-          "content": {
-            "id": "100",
-            "episode": "1",
-            "title": "example video",
-            "series": "nodejs+openRTB",
-            "season": "one",
-            "producer": {
-              "id": "100",
-              "name": "Test Producer",
-              "cat": ['IAB3-1'],
-              "domain": "example.com"
-            },
-            "url": "http://www.example.com",
-            "cat": ["IAB3-1"],
-            "videoquality": 1,
-            "context": 1,
-            "contentrating": "18X",
-            "userrating": "18",
-            "qagmediarating": 1,
-            "keywords": "nodejs+openRTB+example",
-            "livestream": 0,
-            "sourcerelationship": 1,
-            "len": 1024,
-            "language": "ISO-639-1-alpha-2",
-            "embeddable": 0
-          }
+          // "content": {
+          //   "id": "100",
+          //   "episode": "1",
+          //   "title": "example video",
+          //   "series": "nodejs+openRTB",
+          //   "season": "one",
+          //   "producer": {
+          //     "id": "100",
+          //     "name": "Test Producer",
+          //     "cat": ['IAB3-1'],
+          //     "domain": "example.com"
+          //   },
+          //   "url": "http://www.example.com",
+          //   "cat": ["IAB3-1"],
+          //   "videoquality": 1,
+          //   "context": 1,
+          //   "contentrating": "18X",
+          //   "userrating": "18",
+          //   "qagmediarating": 1,
+          //   "keywords": "nodejs+openRTB+example",
+          //   "livestream": 0,
+          //   "sourcerelationship": 1,
+          //   "len": 1024,
+          //   "language": "ISO-639-1-alpha-2",
+          //   "embeddable": 0
+          // }
       })
       .ext({
         'extra': '1234'
@@ -202,20 +202,22 @@ describe("OpenRTB 2.3 unit test suite", function() {
           ver: 1
         });
 
-        //Check pmp object
-        bidRequest.imp[0].pmp.should.have.properties({
-          "private_auction": 0
-        });
+        if(bidRequest.imp[0].pmp){
+          //Check pmp object
+          bidRequest.imp[0].pmp.should.have.properties({
+            "private_auction": 0
+          });
 
-        //Check deal object
-        bidRequest.imp[0].pmp.deals[0].should.have.properties({
-          "id": "deal_1",
-          "bidfloor": 1.3,
-          "bidfloorcur": "CNY",
-          "at": 2,
-          "wseat": ["819582c3-96b2-401a-b60d-7ac3c117a513"],
-          "wadomain": ["example.com"]
-        });
+          //Check deal object
+          bidRequest.imp[0].pmp.deals[0].should.have.properties({
+            "id": "deal_1",
+            "bidfloor": 1.3,
+            "bidfloorcur": "CNY",
+            "at": 2,
+            "wseat": ["819582c3-96b2-401a-b60d-7ac3c117a513"],
+            "wadomain": ["example.com"]
+          });
+        }
 
 
         //Check app object
@@ -250,34 +252,36 @@ describe("OpenRTB 2.3 unit test suite", function() {
         bidRequest.site.publisher.should.have.properties({ id: '6332', name: 'publisher 1' });
 
         //Check site.content object
-        bidRequest.site.content.should.have.properties({
-          id: "100",
-          episode: "1",
-          title: "example video",
-          series: "nodejs+openRTB",
-          season: "one",
-          url: "http://www.example.com",
-          cat: ["IAB3-1"],
-          videoquality: 1,
-          context: 1,
-          contentrating: "18X",
-          userrating: "18",
-          qagmediarating: 1,
-          keywords: "nodejs+openRTB+example",
-          livestream: 0,
-          sourcerelationship: 1,
-          len: 1024,
-          language: "ISO-639-1-alpha-2",
-          embeddable: 0
-        });
+        if(bidRequest.site.content){
+          bidRequest.site.content.should.have.properties({
+            id: "100",
+            episode: "1",
+            title: "example video",
+            series: "nodejs+openRTB",
+            season: "one",
+            url: "http://www.example.com",
+            cat: ["IAB3-1"],
+            videoquality: 1,
+            context: 1,
+            contentrating: "18X",
+            userrating: "18",
+            qagmediarating: 1,
+            keywords: "nodejs+openRTB+example",
+            livestream: 0,
+            sourcerelationship: 1,
+            len: 1024,
+            language: "ISO-639-1-alpha-2",
+            embeddable: 0
+          });
 
-        //Check site.content.producer object
-        bidRequest.site.content.producer.should.have.properties({
-          id: "100",
-          name: "Test Producer",
-          cat: ['IAB3-1'],
-          domain: "example.com"
-        });
+          //Check site.content.producer object
+          bidRequest.site.content.producer.should.have.properties({
+            id: "100",
+            name: "Test Producer",
+            cat: ['IAB3-1'],
+            domain: "example.com"
+          });
+        }
 
         //Check device object
         bidRequest.device.should.have.properties({
